@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script type="text/javascript" charset="utf-8">
+			function start(){
+				var worker = new Worker('primes.js');
+				var c = document.getElementById('main_canvas');
+				var ctx = c.getContext('2d');
+				var img = ctx.createImageData(c.width, c.height);
+				worker.postMessage({img: img});
+				worker.onmessage = function(event) {
+					ctx.putImageData(event.data.img, 0, 0);
+				};
+			}
+		</script>
+	</head>
+	<body onload="start()">
+		<canvas id="main_canvas" width="800" height="800" style="border-style: solid; border-color: black"></canvas>
+	</body>
+</html>
